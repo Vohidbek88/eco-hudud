@@ -1,0 +1,35 @@
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import Navbar from './components/Navbar'
+import About from './pages/About'
+import Home from './pages/Home'
+import MapPage from './pages/MapPage'
+import './index.css'
+
+function AppLayout() {
+  const { pathname } = useLocation()
+  const isMapPage = pathname.startsWith('/xarita')
+
+  return (
+    <div className="app-wrapper">
+      {!isMapPage && <Navbar />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/biz-haqimizda" element={<About />} />
+        <Route path="/xarita" element={<MapPage activeTab="overview" />} />
+        <Route path="/xarita/suv" element={<MapPage activeTab="water" />} />
+        <Route path="/xarita/chiqindi" element={<MapPage activeTab="waste" />} />
+        <Route path="/xarita/atmosfera" element={<MapPage activeTab="atmosphere" />} />
+        <Route path="/xarita/yashil-makon" element={<MapPage activeTab="green" />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </div>
+  )
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppLayout />
+    </BrowserRouter>
+  )
+}
