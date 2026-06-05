@@ -1,0 +1,302 @@
+/* SIdEBAR ASOSIY FORMASI */
+.waste-details-sidebar {
+    position: fixed;
+    top: 85px; /* Navbaringizdan sal pastroqda chiroyli joylashishi uchun */
+    left: 20px;
+    width: 380px;
+    max-height: calc(100vh - 110px);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    border: 1px solid rgba(235, 240, 245, 1);
+    z-index: 1001; /* Xarita elementlari ustida turishi shart */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-30px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* SIDEBAR TEPASI */
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid #f0f4f8;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.sidebar-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 4px 0;
+}
+
+.sidebar-subtitle {
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.4;
+    display: block;
+}
+
+.sidebar-close-btn {
+    background: #f1f5f9;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.sidebar-close-btn:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+/* SCROLL BO'LAdIGAN TANA QISMI */
+.sidebar-body {
+    padding: 20px;
+    overflow-y: auto; /* Agar ma'lumot ko'p bo'lsa avtomat scroll chiqaradi */
+    flex: 1;
+}
+
+/* Scrollbarni chiroyli qilish */
+.sidebar-body::-webkit-scrollbar {
+    width: 5px;
+}
+.sidebar-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+.sidebar-body::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+/* STATUS VA JOY KO'RSATKICHI */
+.status-card {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 20px;
+    border: 1px dashed #e2e8f0;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
+.mfy-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #475569;
+}
+
+/* BO'LIMLAR */
+.sidebar-section {
+    margin-bottom: 22px;
+}
+
+.sidebar-section h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* METRIKA GRID TIZIMI */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.info-box {
+    background: #ffffff;
+    border: 1px solid #edf2f7;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info-box-icon {
+    color: #dc2626;
+    font-size: 16px;
+    background: rgba(220, 38, 38, 0.06);
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.info-box-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-box-label {
+    font-size: 10px;
+    color: #94a3b8;
+}
+
+.info-box-value {
+    font-size: 12px;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.single-row-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    background: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #edf2f7;
+}
+
+/* YURIdIK CARD */
+.legal-card {
+    background: #ffffff;
+    border: 1px solid #edf2f7;
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.legal-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 6px;
+}
+
+.legal-address {
+    font-size: 11px;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.expert-badge {
+    font-size: 11px;
+    color: #475569;
+    border-top: 1px dashed #e2e8f0;
+    padding-top: 6px;
+}
+.expert-badge span {
+    color: #dc2626;
+    font-weight: 500;
+}
+
+/* HUDUDLAR RO'YXATI */
+.served-districts-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.served-districts-list li {
+    font-size: 12px;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #f8fafc;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+.district-bullet {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #dc2626;
+}
+
+/* MOBIL MOSLASHUVCHANLIK */
+@media (max-width: 480px) {
+    .waste-details-sidebar {
+        width: calc(100% - 32px);
+        left: 16px;
+        top: auto;
+        bottom: 20px;
+        max-height: 50vh;
+    }
+}
+
+/* ULASHISH TUGMASI STILI */
+.sidebar-share-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #ffffff;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.sidebar-share-btn:hover {
+    background: #f8fafc;
+    border-color: #94a3b8;
+    color: #0f172a;
+    transform: translateY(-1px);
+}
+
+.sidebar-share-btn:active {
+    transform: translateY(0);
+}
+
+/* Havola muvaffaqiyatli nusxalangandagi yashil holat (Kompyuterlar uchun) */
+.sidebar-share-btn.copied {
+    background: #ecfdf5;
+    border-color: #10b981;
+    color: #065f46;
+}

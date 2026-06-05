@@ -1,9 +1,12 @@
-import { useMemo, useState } from 'react'
+import { useMemo,useState } from 'react'
 import { GeoJSON, Marker, Polygon } from 'react-leaflet'
 import L from 'leaflet'
-import {AiFillCloseCircle} from "react-icons/ai"
+import { AiOutlineClose, AiOutlineInfoCircle } from 'react-icons/ai'
+import { FiShare2, FiCopy, FiCheck } from 'react-icons/fi';
+import { FaTrashRestoreAlt, FaVectorSquare, FaCalendarAlt, FaBuilding, FaMapMarkerAlt } from 'react-icons/fa'
 import { WASTE_SITES } from '../../data/wasteData'
 import sirdaryoDistrictsData from '../../data/sirdaryo-tumanlari.json'
+import '../../styles/waste-sidebar.css' // Yangi CSS faylimiz
 
 const trashSvg = `
   <svg viewBox="0 0 24 24" width="17" height="17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -26,6 +29,7 @@ const makeWasteIcon = (active) =>
         color: white;
         box-shadow: 0 8px 20px rgba(185,28,28,0.35);
         cursor: pointer;
+        transition: all 0.2s ease;
       ">
         <span style="transform: rotate(45deg); display:flex;">${trashSvg}</span>
       </div>
@@ -38,14 +42,15 @@ const activeBoundaryStyle = {
   color: '#dc2626',
   weight: 3,
   fillColor: '#dc2626',
-  fillOpacity: 0.14,
-  dashArray: '8 5',
+  fillOpacity: 0.12,
+  dashArray: '6 4',
 }
 
 const STATUS_COLOR = {
-  Faol: '#27ae60',
-  Yopiq: '#e74c3c',
-  Remont: '#f39c12',
+  'Фоалиятда': '#27ae60',
+  'Faol': '#27ae60',
+  'Yopiq': '#e74c3c',
+  'Remont': '#f39c12',
 }
 
 const DISTRICT_BOUNDARY_IDS = {
@@ -71,7 +76,6 @@ function normalizeName(value) {
 
 function getFeatureNames(feature) {
   const properties = feature.properties ?? {}
-
   return [
     properties.name,
     properties['name:uz-cyr'],
@@ -83,7 +87,7 @@ function getFeatureNames(feature) {
 
 function getServedBoundaryData(site) {
   const districtNames = new Set([
-    site.district,
+    site.ShaharTuman,
     ...(site.servesDistricts ?? []),
   ].map(normalizeName))
 
@@ -92,7 +96,7 @@ function getServedBoundaryData(site) {
     ...(site.servesDistricts ?? [])
       .map((district) => DISTRICT_BOUNDARY_IDS[district])
       .filter(Boolean),
-    DISTRICT_BOUNDARY_IDS[site.district],
+    DISTRICT_BOUNDARY_IDS[site.ShaharTuman],
   ].filter(Boolean))
 
   return {
@@ -111,10 +115,7 @@ export default function WasteLayer({ activeId, onSelectSite }) {
   const activeSite = WASTE_SITES.find((site) => site.id === activeId)
 
   const servedBoundaryData = useMemo(() => {
-    if (!activeSite) {
-      return null
-    }
-
+    if (!activeSite) return null
     return getServedBoundaryData(activeSite)
   }, [activeSite])
 
@@ -122,7 +123,7 @@ export default function WasteLayer({ activeId, onSelectSite }) {
     <>
       {servedBoundaryData?.features.length > 0 && (
         <GeoJSON
-          key={activeSite.id}
+          key={activeId}
           data={servedBoundaryData}
           style={activeBoundaryStyle}
         />
@@ -138,7 +139,6 @@ export default function WasteLayer({ activeId, onSelectSite }) {
 
       {WASTE_SITES.map((site) => {
         const isActive = activeId === site.id
-
         return (
           <Marker
             key={site.id}
@@ -155,61 +155,143 @@ export default function WasteLayer({ activeId, onSelectSite }) {
 }
 
 export function WasteDetailsSidebar({ site, onClose }) {
-  if (!site) {
-    return null
-  }
+  if (!site) return null
+
+  const [copied, setCopied] = useState(false);
+
+  const currentStatus = site.izoh || site.status || "Nomalum"
+
+  const handleShare = async () => {
+    // Google Maps koordinata havolasi (Eng universal havola)
+    const googleMapsUrl = `https://www.google.com/maps?q=${site.lat},${site.lng}`;
+    const shareText = `📍 ${site.ShaharTuman}, ${site.foydalanuvchiShaharTumanNomi}.`;
+
+    // Agar foydalanuvchi smartfonda bo'lsa va brauzer qo'llab-quvvatlasa (Telegram/Viber/SMS orqali ulashish)
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: site.ShaharTuman,
+          text: shareText,
+          url: googleMapsUrl,
+        });
+      } catch (error) {
+        console.log("Ulashishda xatolik yoki foydalanuvchi bekor qildi:", error);
+      }
+    } else {
+      // Agar kompyuterda bo'lsa - havolani clipboardga (buferga) ko'chirib qo'yadi
+      try {
+        await navigator.clipboard.writeText(`${shareText} ${googleMapsUrl}`);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000); // 2 soniyadan keyin tugma asliga qaytadi
+      } catch (err) {
+        alert("Havolani nusxalashda xatolik yuz berdi.");
+      }
+    }
+  };
 
   return (
     <aside className="waste-details-sidebar" aria-label="Chiqindi poligoni detallari">
-      <button className="waste-details-close" type="button" onClick={onClose}>
-        <AiFillCloseCircle size={24} aria-hidden="true" />  
-      </button>
-
-      <div className="waste-details-header">
-        <span className="waste-details-icon" dangerouslySetInnerHTML={{ __html: trashSvg }} />
+      {/* Sidebar Tepa qismi */}
+      <div className="sidebar-header">
         <div>
-          <h2>{site.district}</h2>
-          <span className="waste-details-location">{ site.name}</span>
+          <h2>{site.ShaharTuman || 'Sirdaryo'}</h2>
+          <span className="sidebar-subtitle">{site.foydalanuvchiShaharTumanNomi}</span>
+        </div>
+        <button className="sidebar-close-btn" type="button" onClick={onClose} title="Yopish">
+          <AiOutlineClose size={20} />
+        </button>
+      </div>
+
+      {/* Scroll bo'ladigan asosiy tana qismi */}
+      <div className="sidebar-body">
+        
+        {/* Status va Umumiy nuqta */}
+        <div className="info-card status-card">
           <span
-            className="waste-details-badge"
+            className="status-badge"
             style={{
-              background: (STATUS_COLOR[site.status] ?? '#7f8c8d') + '22',
-              color: STATUS_COLOR[site.status] ?? '#7f8c8d',
+              background: (STATUS_COLOR[currentStatus] ?? '#7f8c8d') + '18',
+              color: STATUS_COLOR[currentStatus] ?? '#7f8c8d',
             }}
           >
-            {site.status}
+            <span className="status-dot" style={{ background: STATUS_COLOR[currentStatus] ?? '#7f8c8d' }} />
+            {currentStatus}
           </span>
+          <div className="mfy-info">
+            <FaMapMarkerAlt /> <span><b>MFY/Joy:</b> {site.MFY}</span>
+          </div>
+
+          <button 
+            type="button" 
+            className={`sidebar-share-btn ${copied ? 'copied' : ''}`}
+            onClick={handleShare}
+          >
+            {copied ? (
+              <>
+                <FiCheck size={16} /> <span>Havola nusxalandi!</span>
+              </>
+            ) : (
+              <>
+                <FiShare2 size={16} /> <span>Geolokatsiyani ulashish</span>
+              </>
+            )}
+          </button>
+
         </div>
+
+        {/* 1-Bo'lim: Texnik ko'rsatkichlar */}
+        <div className="sidebar-section">
+          <h3><AiOutlineInfoCircle /> Texnik ko'rsatkichlar</h3>
+          <div className="info-grid">
+            <InfoBox icon={<FaVectorSquare />} label="Umumiy maydon" value={`${site.maydoniGa} GA`} />
+            <InfoBox icon={<FaCalendarAlt />} label="Ishga tushgan" value={site.ishgaTushirilganSanasi} />
+            <InfoBox icon={<FaTrashRestoreAlt />} label="Jami to'plangan" value={`${site.toplanganMaishiyChiqindiMiqdoriTn?.toLocaleString()} tn`} />
+            <InfoBox icon={<FaTrashRestoreAlt />} label="Yillik hajm" value={`${site.birYildaChiqarilganChiqindiMiqdoriTn?.toLocaleString()} tn/yil`} />
+          </div>
+          <div className="single-row-info">
+            <span>Sanitariya himoya zonasi:</span>
+            <strong>{site.sanitariyaHimoyaZonasiMavjudligiKm} km</strong>
+          </div>
+        </div>
+
+        {/* 2-Bo'lim: Balansda saqlovchi */}
+        <div className="sidebar-section">
+          <h3><FaBuilding /> Yuridik boshqaruv</h3>
+          <div className="legal-card">
+            <p className="legal-title">{site.Egalik_qiluvchining_nomi}</p>
+            <p className="legal-address"><b>Manzil:</b> {site.Egalik_qiluvchining_manzili}</p>
+            <div className="expert-badge">
+              Ekologik ekspertiza: <span>{site.davlatEkologikEkspertizasiTuriRaqamiSanasi}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* 3-Bo'lim: Xizmat ko'rsatadigan hududlar */}
+        <div className="sidebar-section">
+          <h3>Xizmat ko'rsatadigan hududlar</h3>
+          <ul className="served-districts-list">
+            {site.servesDistricts?.map((district) => (
+              <li key={district}>
+                <span className="district-bullet" />
+                {district}
+              </li>
+            ))}
+          </ul>
+        </div>
+
       </div>
-
-      <div className="waste-details-divider" />
-
-      <div className="waste-details-info">
-        <InfoRow label="Quvvat" value={site.capacity} />
-        <InfoRow label="Maydon" value={site.area} />
-        <InfoRow label="Ochilgan" value={site.opened} />
-      </div>
-
-      <div className="waste-details-divider" />
-
-      <p className="waste-details-section-title">Xizmat ko'rsatadigan hududlar</p>
-      <ul className="waste-details-districts">
-        {site.servesDistricts.map((district) => (
-          <li key={district}>
-            <span />
-            {district}
-          </li>
-        ))}
-      </ul>
     </aside>
   )
 }
 
-function InfoRow({ label, value }) {
+function InfoBox({ icon, label, value }) {
   return (
-    <div className="waste-details-row">
-      <span>{label}</span>
-      <strong>{value}</strong>
+    <div className="info-box">
+      <div className="info-box-icon">{icon}</div>
+      <div className="info-box-content">
+        <span className="info-box-label">{label}</span>
+        <strong className="info-box-value">{value}</strong>
+      </div>
     </div>
   )
 }

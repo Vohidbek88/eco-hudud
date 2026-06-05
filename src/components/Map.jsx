@@ -52,7 +52,7 @@ export default function Map({ activeTab = 'overview' }) {
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="© OpenStreetMap contributors"
-        />
+        />  
 
         <GeoJSON data={getRegionOnly(sirdaryoData)} style={regionStyle} />
 
