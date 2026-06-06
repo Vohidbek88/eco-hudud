@@ -64,7 +64,7 @@ const DISTRICT_BOUNDARY_IDS = {
   'Сардоба тумани': 'relation/11087239',
   'Оқолтин тумани': 'relation/11087238',
   'Гулистон тумани': 'relation/11087519',
-  'Shirin': 'way/140375240',
+  'Ширин шаҳар': 'way/140375240',
 }
 
 function normalizeName(value) {

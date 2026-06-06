@@ -27,7 +27,7 @@ export const WASTE_SITES = [
       'Xovos tumani',
       'Mirzaobod tumani',
     ],
-    servedBoundaryIds: ['way/140375240'],
+    servedBoundaryIds: [],
     serviceAreaBoundaries: [],
   },
   {
