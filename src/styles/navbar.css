@@ -1,304 +1,441 @@
-/* Umumiy wrapper va soya */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* Asosiy Wrapper va Qotib qolish (Sticky) mexanizmi */
 .navbar-wrapper {
   width: 100%;
-  background: #ffffff;
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: linear-gradient(135deg, #0e220d 0%, #163314 100%);
+  color: #ffffff;
   position: sticky;
   top: 0;
-  z-index: 1010;
+  z-index: 1000;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* ========================================================== */
-/* 1. TOPBAR STIllARI                                         */
-/* ========================================================== */
+/* --- Sahifa pastga tushganda ishlaydigan ULTRA BLUR effekt --- */
+.navbar-wrapper.scrolled {
+  background: rgba(14, 34, 13, 0.75);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-wrapper.scrolled .nav-topbar {
+  padding: 10px 0; /* Pastga tushganda ingichkalashadi */
+}
+
+.nav-container-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* --- YUQORI PANEL (TOPBAR) --- */
 .nav-topbar {
-  background: #0f172a; /* To'q rangli professional topbar */
-  color: #94a3b8;
-  font-size: 13px;
-  border-bottom: 1px solid #1e293b;
+  padding: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: padding 0.3s ease;
 }
 
-.nav-topbar-inner {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 8px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.nav-topbar-left {
+/* Premium Logo */
+.nav-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-weight: 500;
-  color: #e2e8f0;
-}
-
-/* Kichik chiroyli O'zbekiston bayrog'i */
-.uzb-flag {
-  width: 22px;
-  height: 12px;
-  display: flex;
-  flex-direction: column;
-  border-radius: 2px;
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-}
-.flag-blue { flex: 1; background: #0099b8; }
-.flag-white { flex: 1; background: #fff; }
-.flag-green { flex: 1; background: #009966; }
-.flag-red-line { height: 1px; background: #d22630; }
-
-.nav-toplinks {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.nav-toplinks a {
-  color: #94a3b8;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: color 0.2s ease;
-}
-
-.nav-toplinks a:hover {
-  color: #38bdf8;
-}
-
-.lang-badge {
-  background: #1e293b;
-  color: #f8fafc;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 11px;
-}
-
-/* ========================================================== */
-/* 2. MAIN NAVBAR STIllARI                                    */
-/* ========================================================== */
-.nav-main {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 14px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-}
-
-/* Brand bloki (Gerb + Logo) */
-.nav-brand-container {
-  display: flex;
-  align-items: center;
+  flex-direction: row;
   gap: 14px;
-}
-
-.uzb-coat-of-arms {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.08));
-  border-right: 1px solid #e2e8f0;
-  padding-right: 14px;
-}
-
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   text-decoration: none;
 }
 
 .nav-logo-icon {
-  width: 38px;
-  height: 38px;
-  background: #e6f4ea;
-  color: #10b981;
-  border-radius: 10px;
+  background: linear-gradient(135deg, #2ecc71, #138d4f);
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-}
-
-.nav-logo-text-group {
-  display: flex;
-  flex-direction: column;
+  font-size: 24px;
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
 }
 
 .nav-logo-text {
-  font-size: 20px;
-  color: #0f172a;
-  letter-spacing: -0.5px;
-}
-
-.nav-logo-text strong {
-  color: #10b981;
-  font-weight: 700;
-}
-
-.nav-subtitle {
-  font-size: 11px;
-  color: #64748b;
-  margin-top: 1px;
-}
-
-/* Menular o'rab turuvchisi (Tabs + Region) */
-.nav-menu-wrapper {
   display: flex;
-  align-items: center;
-  gap: 32px;
+  flex-direction: column;
 }
 
-/* Navigatsiya tablari */
-.nav-tabs {
-  display: flex;
-  gap: 8px;
-}
-
-.nav-tab {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  color: #64748b;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 14.5px;
-  border-radius: 8px;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.nav-tab i {
+.logo-title {
   font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  line-height: 1.2;
 }
 
-.nav-tab:hover {
-  background: #f1f5f9;
-  color: #0f172a;
-}
-
-/* Aktiv havola holati */
-.nav-tab.active {
-  background: #e6f4ea;
-  color: #15803d;
+.logo-subtitle {
+  font-size: 11px;
   font-weight: 600;
+  color: #8bb388;
+  letter-spacing: 0.8px;
+  margin-top: 2px;
 }
 
-/* Hudud paneli */
-.nav-region {
+/* Kuchaytirilgan Kontaktlar Dizayni */
+.nav-contacts-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.contact-icon-box {
+  background: rgba(255, 255, 255, 0.05);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2ecc71;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.contact-item:hover .contact-icon-box {
+  background: #2ecc71;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.contact-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-label {
+  font-size: 11px;
+  color: #7fa37c;
+}
+
+.contact-value {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+/* O'ng tomon paneli */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-cabinet {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-size: 13.5px;
-  color: #334155;
+  background: #ffffff;
+  color: #0e220d;
+  padding: 10px 20px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(255,255,255,0.1);
+  transition: all 0.3s ease;
+}
+
+.btn-cabinet:hover {
+  background: #2ecc71;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+}
+
+.btn-accessibility {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.3s;
+}
+
+.btn-accessibility:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.lang-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 16px;
+  border-radius: 24px;
+  cursor: pointer;
+  font-size: 13px;
   font-weight: 600;
+  background: rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
 }
 
-.nav-region i {
-  color: #ef4444; /* Qizil lokatsiya iqonchasi */
+.lang-selector:hover {
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* Burger menu tugmasi (Standartda yashirin) */
-.nav-burger {
+/* --- 2. PASDKI ASOSIY MENYU (O'rtaga tekislangan va Kattaroq) --- */
+.nav-main-menu {
+  background-color: rgba(0, 0, 0, 0.15);
+  padding: 16px 0;
+  transition: all 0.3s ease;
+}
+
+.menu-center-layout {
+  justify-content: center; /* Hamma linklarni o'rtaga yig'adi */
+  position: relative;
+}
+
+.home-icon-tab {
+  position: absolute;
+  left: 24px; /* Uy tugmasi chap burchakda qoladi */
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 22px;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.home-icon-tab:hover, .home-icon-tab.active {
+  color: #2ecc71;
+}
+
+.nav-links-centered {
+  display: flex;
+  align-items: center;
+  gap: 32px; /* Linklar orasidagi masofa */
+}
+
+.premium-menu-item {
+  text-decoration: none;
+  color: #b8d4b6;
+  font-size: 14.5px; /* Shrift o'lchami kattalashtirildi */
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  padding: 6px 4px;
+}
+
+.premium-menu-item:hover {
+  color: #ffffff;
+}
+
+/* Premium ostki chiziq animatsiyasi */
+.premium-menu-item::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0;
+  height: 2.5px;
+  background: linear-gradient(90deg, #2ecc71, #27ae60);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.premium-menu-item:hover::after, 
+.premium-menu-item.active::after {
+  width: 100%;
+}
+
+.premium-menu-item.active {
+  color: #ffffff;
+  text-shadow: 0 0 15px rgba(46, 204, 113, 0.4);
+}
+
+
+/* --- MOBIL GAMBURGER ANIMATSIYASI --- */
+.mobile-menu-toggle {
   display: none;
   flex-direction: column;
-  gap: 5px;
+  justify-content: space-between;
+  width: 26px;
+  height: 18px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
-  z-index: 1020;
+  padding: 0;
 }
 
-.burger-line {
-  width: 22px;
-  height: 2px;
-  background: #334155;
+.mobile-menu-toggle .bar {
+  width: 100%;
+  height: 2.5px;
+  background-color: white;
+  border-radius: 4px;
   transition: all 0.3s ease;
-  border-radius: 2px;
 }
 
-/* ========================================================== */
-/* 3. RESPONSIVE (MEDIA SOʻROVLAR)                            */
-/* ========================================================== */
+/* X holatga kelish animatsiyasi */
+.mobile-menu-toggle.open .bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.mobile-menu-toggle.open .bar:nth-child(2) {
+  opacity: 0;
+}
+.mobile-menu-toggle.open .bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
 
-@media (max-width: 1024px) {
-  .nav-menu-wrapper {
-    gap: 16px;
-  }
-  .nav-subtitle {
-    display: none; /* Kichikroq ekranlarda subtitleni berkitamiz */
+
+/* --- RESPONSIVE DIZAYN --- */
+
+@media (max-width: 1250px) {
+  .nav-contacts-wrapper {
+    display: none; /* Planshetlarda kontaktlar yopiladi */
   }
 }
 
-@media (max-width: 768px) {
-  .hide-on-mobile {
-    display: none !important;
-  }
-  
-  .nav-burger {
-    display: flex; /* Mobil ekranda burger ko'rinadi */
+@media (max-width: 900px) {
+  .mobile-menu-toggle {
+    display: flex; /* Hamburger tugma chiqadi */
   }
 
-  /* Burger animatsiyasi (Ochilgandagi holat) */
-  .nav-burger.open .burger-line:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-  }
-  .nav-burger.open .burger-line:nth-child(2) {
-    opacity: 0;
-  }
-  .nav-burger.open .burger-line:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
+  .nav-actions .btn-cabinet,
+  .nav-actions .btn-accessibility {
+    display: none; /* Joy tejash uchun yopiladi */
   }
 
-  /* Mobil menyu (Ekran yorib chiquvchi panel) */
-  .nav-menu-wrapper {
+  .nav-main-menu {
+    display: block;
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
-    background: #ffffff;
-    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
-    border-top: 1px solid #f1f5f9;
-    padding: 20px;
+    background: #0e220d;
+    max-height: 0;
+    overflow: hidden;
+    padding: 0;
+    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border-bottom: none;
+  }
+
+  /* Mobil menyu ochilganda silliq pastga tushishi */
+  .nav-main-menu.mobile-open {
+    max-height: 450px;
+    padding: 24px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(14, 34, 13, 0.96);
+    backdrop-filter: blur(15px);
+  }
+
+  .menu-center-layout {
     flex-direction: column;
-    align-items: stretch;
+    align-items: flex-start;
+    padding: 0 30px;
+  }
+
+  .home-icon-tab {
+    display: none;
+  }
+
+  .nav-links-centered {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
     gap: 20px;
-    display: none; /* Standartda yopiq */
   }
 
-  .nav-menu-wrapper.show {
-    display: flex; /* Burger bosilganda ochiladi */
-    animation: fadeInMenu 0.25s ease-out;
-  }
-
-  .nav-tabs {
-    flex-direction: column;
+  .premium-menu-item {
     width: 100%;
+    font-size: 16px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
   }
 
-  .nav-tab {
-    width: 100%;
-    padding: 12px 16px;
+  .premium-menu-item::after {
+    display: none; /* Mobilda chiziq effekt shart emas */
   }
 
-  .nav-region {
-    justify-content: center;
-    width: 100%;
+  .premium-menu-item.active {
+    color: #2ecc71;
   }
 }
 
-@keyframes fadeInMenu {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Ikonkalarni matn bilan bir qatorga chiroyli tekislash */
+.menu-link-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Desktopda menyu ichidagi piktogrammalarni yashirish (agar faqat matn qolishi kerak bo'lsa) */
+.responsive-link-icon {
+  font-size: 16px;
+  display: none; 
+}
+
+/* Mobilda esa havolalar yonidan ikonka ko'rinishi interfeysni yanada boyitadi */
+@media (max-width: 900px) {
+  .responsive-link-icon {
+    display: inline-block;
+    color: #2ecc71;
+    font-size: 18px;
+  }
+}
+
+/* React-icons SVG elementlari uchun umumiy to'g'rilash */
+.contact-icon-box svg,
+.nav-logo-icon svg,
+.home-icon-tab svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.contact-icon-box svg {
+  padding: 8px; /* Ikonka ichki foni chiroyli aylana hosil qilishi uchun */
+}
+
+.logo-variant-1 {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #1e4620 0%, #0f2410 100%);
+  border: 1px solid rgba(46, 204, 113, 0.3);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-variant-1 .shield-base {
+  font-size: 26px;
+  color: #2ecc71;
+}
+
+.logo-variant-1 .leaf-overlay {
+  position: absolute;
+  font-size: 14px;
+  color: #ffffff;
+  top: 13px;
+  /* Ustma-ust chiroyli tushishi uchun */
+  transform: rotate(-15deg); 
 }

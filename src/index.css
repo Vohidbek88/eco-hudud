@@ -1,18 +1,36 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+html, body {
+  height: 100%; /* Brauzerga zamin tayyorlaymiz */
+}
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: #f5f6f7;
+  background: #0b170a; /* Premium qorong'i foningiz unutilmasligi uchun */
   color: #22313f;
 }
 
+/* Asosiy Wrapper uning ichidagi kontent kam bo'lsa ham footerni pastga itaradi, 
+   kontent ko'paysa o'zi ham pastga qarab cheksiz o'sadi */
 .app-wrapper {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  min-height: 100vh;
+  min-height: 100vh; /* height: 100vh OLIY TASHLANDI! */
 }
 
+/* Routerning kontenti joylashadigan asosiy qismni avtomat cho'ziladigan qilamiz */
+main {
+  flex: 1 0 auto; /* Mana shu sehrli qator footerni har doim eng tagga mixlab qo'yadi! */
+}
+
+/* Footer o'z o'lchamini yo'qotmasligi uchun */
+.premium-footer {
+  flex-shrink: 0;
+}
 /* Navbar */
 .navbar {
   position: sticky;

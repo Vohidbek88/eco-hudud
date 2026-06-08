@@ -4,6 +4,7 @@ import About from './pages/About'
 import Home from './pages/Home'
 import MapPage from './pages/MapPage'
 import './index.css'
+import Footer from './components/Footer'
 
 function AppLayout() {
   const { pathname } = useLocation()
@@ -22,6 +23,7 @@ function AppLayout() {
         <Route path="/xarita/yashil-makon" element={<MapPage activeTab="green" />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      {!isMapPage && <Footer />}
     </div>
   )
 }

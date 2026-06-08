@@ -1,81 +1,120 @@
-import { useState } from 'react'
-import { GeoJSON, Popup, useMap } from 'react-leaflet'
-import L from 'leaflet'
-import { WATER_OBJECTS } from '../../data/waterData'
-import sirdaryoData from '../../data/sirdaryo.json'
 
-// GeoJSON dan faqat kerakli way-larni filter qilamiz
-function filterFeatures(geojson, osmIds) {
-  return {
-    ...geojson,
-    features: geojson.features.filter((f) =>
-      osmIds.includes(f.properties?.['@id'])
-    ),
+import { useState } from 'react'
+import { GeoJSON, Popup } from 'react-leaflet'
+// Overpass Turbo orqali yuklab olingan yangi GeoJSON faylingiz
+import sirdaryoWaterData from '../../data/sirdaryo-suv-havzalari.json'
+
+// Suv obyektlari turlariga qarab boshlang'ich stillar (rang, qalinlik va ikonka)
+const WATER_CONFIGS = {
+  river: {
+    color: '#1d4ed8', // To'q ko'k
+    weight: 5,
+    label: 'Daryo',
+    icon: '🌊'
+  },
+  canal: {
+    color: '#2563eb', // Ochiqroq ko'k
+    weight: 3.5,
+    label: 'Kanal',
+    icon: '🔲'
+  },
+  drain: {
+    color: '#06b6d4', // Firuza / Zangori
+    weight: 2,
+    label: 'Kollektor / Zovur',
+    icon: '➖',
+    dashArray: '5 5' // Zovurlarni uzuq-uzuq chiziq qilish
+  },
+  ditch: {
+    color: '#0ea5e9', 
+    weight: 1.5,
+    label: 'Ariq / Zovur',
+    icon: '➖',
+    dashArray: '4 4'
   }
 }
 
 export default function WaterLayer() {
-  const [activeObj, setActiveObj] = useState(null)
+  const [activeFeature, setActiveFeature] = useState(null)
   const [popupPos, setPopupPos] = useState(null)
 
-  const handleClick = (obj, e) => {
-    setActiveObj(obj)
-    setPopupPos(e.latlng)
+  // Har bir chiziq (way) uchun dinamik stil berish funksiyasi
+  const getStyle = (feature) => {
+    const type = feature.properties?.waterway || 'river'
+    const config = WATER_CONFIGS[type] || WATER_CONFIGS.river
+    
+    // Agar foydalanuvchi chiziq ustiga bossa, o'sha chiziq ID si bo'yicha urg'u beriladi
+    const isActive = activeFeature?.properties?.['@id'] === feature.properties?.['@id']
+
+    return {
+      color: config.color,
+      weight: isActive ? config.weight + 2.5 : config.weight,
+      opacity: isActive ? 1 : 0.75,
+      dashArray: config.dashArray || null,
+      fillOpacity: 0,
+    }
+  }
+
+  // Chiziq bosilgandagi mantiq
+  const onEachFeature = (feature, layer) => {
+    layer.on({
+      click: (e) => {
+        // Leafletning standart GeoJSON bosilish hodisasi xaritaning o'ziga o'tib ketmasligi uchun
+        L.DomEvent.stopPropagation(e) 
+        setActiveFeature(feature)
+        setPopupPos(e.latlng)
+      }
+    })
   }
 
   return (
     <>
-      {WATER_OBJECTS.map((obj) => {
-        const filtered = filterFeatures(sirdaryoData, obj.osmIds)
-        const isActive = activeObj?.id === obj.id
+      {/* Yagona GeoJSON qatlami hamma ma'lumotni o'zi chizadi */}
+      <GeoJSON
+        data={sirdaryoWaterData}
+        style={getStyle}
+        onEachFeature={onEachFeature}
+      />
 
-        return (
-          <GeoJSON
-            key={obj.id}
-            data={filtered}
-            style={{
-              color: obj.color,
-              weight: isActive ? obj.weight + 2 : obj.weight,
-              opacity: isActive ? 1 : 0.8,
-              fillOpacity: 0,
-            }}
-            eventHandlers={{
-              click: (e) => handleClick(obj, e),
-            }}
-          />
-        )
-      })}
-
-      {/* Popup — active ob'ekt uchun */}
-      {activeObj && popupPos && (
+      {/* Tanlangan faol suv yo'li uchun interaktiv Popup */}
+      {activeFeature && popupPos && (
         <Popup
           position={popupPos}
-          onClose={() => { setActiveObj(null); setPopupPos(null) }}
+          onClose={() => { setActiveFeature(null); setPopupPos(null) }}
           maxWidth={280}
         >
-          <WaterPopup obj={activeObj} />
+          <WaterPopup feature={activeFeature} />
         </Popup>
       )}
 
-      {/* Legend */}
-      <WaterLegend active={activeObj} />
+      {/* O'ng pastki burchakdagi umumiy Legend (Yo'riqnoma) */}
+      <WaterLegend activeType={activeFeature?.properties?.waterway} />
     </>
   )
 }
 
-function WaterPopup({ obj }) {
+// PORTATIV POPUP KOMPONENTI
+function WaterPopup({ feature }) {
+  const props = feature.properties || {}
+  const type = props.waterway || 'river'
+  const config = WATER_CONFIGS[type] || WATER_CONFIGS.river
+
+  // OSM ma'lumotlaridan nomlarni ajratib olish (agar topilmasa zaxira nom)
+  const nameUz = props['name:uz'] || props.name || "Nomsiz suv ob'ekti"
+  const nameRu = props['name:ru'] || props.name_ru || ""
+
   return (
     <div style={styles.popup}>
       <div style={styles.header}>
-        <span style={{ fontSize: 22 }}>{obj.typeIcon}</span>
+        <span style={{ fontSize: 22 }}>{config.icon}</span>
         <div>
-          <p style={styles.title}>{obj.name}</p>
+          <p style={styles.title}>{nameUz}</p>
           <span style={{
             ...styles.typeBadge,
-            background: obj.color + '22',
-            color: obj.color,
+            background: config.color + '22',
+            color: config.color,
           }}>
-            {obj.type}
+            {config.label}
           </span>
         </div>
       </div>
@@ -83,43 +122,46 @@ function WaterPopup({ obj }) {
       <div style={styles.divider} />
 
       <div style={styles.infoGrid}>
-        <InfoRow icon="📏" label="Uzunlik" value={obj.lengthInRegion} />
-        <InfoRow icon="🔵" label="Turi" value={obj.type} />
-        {obj.wikidata && (
-          <InfoRow icon="🌍" label="Wikidata" value={obj.wikidata} />
+        <InfoRow icon="🔵" label="Turi (OSM)" value={type} />
+        {props['@id'] && (
+          <InfoRow icon="🆔" label="OSM ID" value={props['@id'].replace('/', ': ')} />
+        )}
+        {props.wikidata && (
+          <InfoRow icon="🌍" label="Wikidata" value={props.wikidata} />
         )}
       </div>
 
-      <div style={styles.divider} />
-
-      <p style={styles.description}>{obj.description}</p>
-
-      {obj.nameRu && (
-        <p style={styles.nameRu}>{obj.nameRu}</p>
+      {nameRu && (
+        <>
+          <div style={styles.divider} />
+          <p style={styles.nameRu}>Muqobil nomi: {nameRu}</p>
+        </>
       )}
     </div>
   )
 }
 
-// Xarita pastki o'ng burchagidagi legend
-function WaterLegend({ active }) {
+// AVTOMATIK LEGEND (Obyekt turiga qarab guruhlaydi)
+function WaterLegend({ activeType }) {
   return (
     <div style={styles.legend}>
-      <p style={styles.legendTitle}>Suv ob'ektlari</p>
-      {WATER_OBJECTS.map((obj) => (
+      <p style={styles.legendTitle}>Suv turlari</p>
+      {Object.entries(WATER_CONFIGS).map(([key, config]) => (
         <div
-          key={obj.id}
+          key={key}
           style={{
             ...styles.legendItem,
-            opacity: active ? (active.id === obj.id ? 1 : 0.45) : 1,
+            opacity: activeType ? (activeType === key ? 1 : 0.35) : 1,
           }}
         >
+          {/* Legend ichidagi chiziq stilini xaritadagiga moslash */}
           <div style={{
             ...styles.legendLine,
-            background: obj.color,
-            height: obj.weight + 1,
+            borderBottom: `${config.weight}px ${config.dashArray ? 'dashed' : 'solid'} ${config.color}`,
+            height: 0,
+            paddingTop: 4
           }} />
-          <span style={styles.legendLabel}>{obj.name}</span>
+          <span style={styles.legendLabel}>{config.label}</span>
         </div>
       ))}
     </div>
@@ -129,13 +171,14 @@ function WaterLegend({ active }) {
 function InfoRow({ icon, label, value }) {
   return (
     <div style={styles.infoRow}>
-      <span style={{ fontSize: 14, width: 20 }}>{icon}</span>
+      <span style={{ fontSize: 13, width: 18 }}>{icon}</span>
       <span style={styles.infoLabel}>{label}</span>
       <span style={styles.infoValue}>{value}</span>
     </div>
   )
 }
 
+// Eski chiroyli inline CSS stillaringiz o'zgarishsiz saqlanadi
 const styles = {
   popup: {
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
@@ -147,7 +190,7 @@ const styles = {
     gap: 10, marginBottom: 10,
   },
   title: {
-    fontSize: 13, fontWeight: 600,
+    fontSize: 14, fontWeight: 600,
     color: '#1a1a1a', margin: '0 0 4px', lineHeight: 1.3,
   },
   typeBadge: {
@@ -158,35 +201,35 @@ const styles = {
   infoGrid: { display: 'flex', flexDirection: 'column', gap: 6 },
   infoRow: { display: 'flex', alignItems: 'center', gap: 6, fontSize: 12 },
   infoLabel: { color: '#888', flex: 1 },
-  infoValue: { color: '#1a1a1a', fontWeight: 500 },
-  description: {
-    fontSize: 12, color: '#555', lineHeight: 1.5, margin: 0,
-  },
+  infoValue: { color: '#1a1a1a', fontWeight: 500, wordBreak: 'break-all' },
   nameRu: {
-    fontSize: 11, color: '#aaa', marginTop: 6, fontStyle: 'italic',
+    fontSize: 11, color: '#666', margin: 0, fontStyle: 'italic',
   },
   legend: {
     position: 'absolute',
-    bottom: 40, right: 12,
+    bottom: 24,
+    right: 12,
     background: 'white',
     border: '1px solid #eee',
     borderRadius: 8,
-    padding: '8px 12px',
+    padding: '10px 14px',
     zIndex: 500,
-    minWidth: 200,
+    minWidth: 180,
+    boxShadow: '0 2px 10px rgba(0,0,0,0.05)'
   },
   legendTitle: {
     fontSize: 11, color: '#999',
-    fontWeight: 600, marginBottom: 8,
+    fontWeight: 600, marginBottom: 10,
     textTransform: 'uppercase', letterSpacing: 0.5,
+    margin: 0
   },
   legendItem: {
     display: 'flex', alignItems: 'center',
-    gap: 8, marginBottom: 5,
+    gap: 10, marginTop: 8,
     transition: 'opacity 0.2s',
   },
   legendLine: {
-    width: 24, borderRadius: 2, flexShrink: 0,
+    width: 30, flexShrink: 0,
   },
-  legendLabel: { fontSize: 12, color: '#333' },
+  legendLabel: { fontSize: 12, color: '#333', fontWeight: 500 },
 }
