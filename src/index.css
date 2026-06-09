@@ -43,6 +43,95 @@ main {
   z-index: 1200;
 }
 
+/* Leaflet tooltipning standart oq foni va soyalarini butunlay o'chiramiz */
+.leaflet-tooltip.district-map-label {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #1b5e20 !important; /* To'q yashil matn */
+  font-weight: 800 !important; /* O'ta qalin bold */
+  font-size: 13px !important;  /* Shrifni kattalashtirish */
+  text-shadow: 
+    -1px -1px 0 #fff,  
+     1px -1px 0 #fff,
+    -1px  1px 0 #fff,
+     1px  1px 0 #fff; /* Matn orqasida oq chiziqlar o'qishni osonlashtiradi */
+  font-family: '-apple-system', BlinkMacSystemFont, sans-serif;
+  pointer-events: none; /* Matn xaritaning hover bo'lishiga xalaqit bermaydi */
+}
+
+/* Marker o'rab turuvchi asosiy konteyner */
+.custom-hover-marker-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Markerdagi markaziy yashil nuqta */
+.marker-core-dot {
+  width: 12px;
+  height: 12px;
+  background-color: #2e7d32;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(0,0,0,0.4);
+  z-index: 2;
+}
+
+/* Nuqta atrofidagi aylanma ekologik pulsatsiya to'lqini */
+.marker-pulse-ring {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: rgba(46, 125, 50, 0.4);
+  border-radius: 50%;
+  animation: markerPulsate 1.5s infinite ease-out;
+  z-index: 1;
+}
+
+/* Tuman nomi yozilgan chiroyli oq xafsali quticha */
+.marker-label-box {
+  position: absolute;
+  bottom: 22px; /* Nuqtadan biroz tepada turadi */
+  background-color: #ffffff;
+  color: #1b5e20;
+  font-weight: 700;
+  font-size: 12px;
+  white-space: nowrap;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #a5d6a7;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  font-family: system-ui, -apple-system, sans-serif;
+  animation: fadeInLabel 0.2s ease-out;
+}
+
+/* Kichik strelka (Label ostidagi burchakchasi) */
+.marker-label-box::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px 6px 0;
+  border-style: solid;
+  border-color: #ffffff transparent;
+  display: block;
+  width: 0;
+}
+
+/* Animatsiyalar kodi */
+@keyframes markerPulsate {
+  0% { transform: scale(0.5); opacity: 1; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes fadeInLabel {
+  from { transform: translateY(4px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
 .nav-topbar {
   background: #1e8449;
   color: #fff;
@@ -769,4 +858,133 @@ main {
   .waste-details-row strong {
     text-align: left;
   }
+}
+
+
+/* 1. DEFAULT HOLATDA DOIM TURADIGAN TOZA NOMLAR */
+.leaflet-tooltip.district-map-default-label {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #2e7d32 !important; /* Mayinroq to'q yashil */
+  font-weight: 700 !important;
+  font-size: 11px !important;  /* Orqa fonda halakat bermasligi uchun biroz kichikroq */
+  text-shadow: 
+    -1.5px -1.5px 0 #fff,  
+     1.5px -1.5px 0 #fff,
+    -1.5px  1.5px 0 #fff,
+     1.5px  1.5px 0 #fff; /* Oq kontur matnni oson o'qiluvchan qiladi */
+  font-family: system-ui, -apple-system, sans-serif;
+  pointer-events: none;
+  opacity: 0.85;
+}
+/* Doimiy ko'rinib turadigan tuman nomlari dizayni */
+.custom-district-tooltip {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border: 1px solid #2e7d32 !important;
+  border-radius: 6px !important;
+  color: #1b5e20 !important;
+  font-weight: 600 !important;
+  font-size: 11px !important;
+  padding: 4px 8px !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
+  white-space: nowrap;
+  pointer-events: none; /* Sichqoncha xalaqit bermasligi uchun */
+}
+
+/* Tooltipning tagidagi default kichik uchburchakni yo'qotish */
+.custom-district-tooltip::before {
+  display: none !important;
+}
+
+/* Hover bo'lganda tuman yorqinlashishi bilan yozuvi ham ajralib turishi uchun */
+.leaflet-interactive:hover + .custom-district-tooltip {
+  background: #1b5e1f46 !important;
+  color: #ffffff !important;
+  border-color: #1b5e20 !important;
+  font-size: 12px !important;
+  transition: all 0.2s ease;
+}
+/* 2. HOVER BO'LGANDA CHIQADIGAN MARKER VA POPUP QUTISI */
+.custom-hover-marker-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.marker-core-dot {
+  width: 12px;
+  height: 12px;
+  background-color: #1b5e20;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(0,0,0,0.4);
+  z-index: 2;
+}
+
+.marker-pulse-ring {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background-color: rgba(27, 94, 32, 0.4);
+  border-radius: 50%;
+  animation: markerPulsate 1.4s infinite ease-out;
+  z-index: 1;
+}
+
+.marker-label-box {
+  position: absolute;
+  bottom: 22px;
+  background-color: #1b5e20; /* Hover bo'lganda ajralib turishi uchun to'q yashil fon */
+  color: #ffffff;            /* Oq yozuv */
+  font-weight: 700;
+  font-size: 13px;           /* Kattaroq va jozibali */
+  white-space: nowrap;
+  padding: 5px 12px;
+  border-radius: 6px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  font-family: system-ui, -apple-system, sans-serif;
+  animation: fadeInLabel 0.15s ease-out;
+}
+
+.marker-label-box::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px 5px 0;
+  border-style: solid;
+  border-color: #1b5e20 transparent;
+  display: block;
+  width: 0;
+}
+
+@keyframes markerPulsate {
+  0% { transform: scale(0.5); opacity: 1; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes fadeInLabel {
+  from { transform: translateY(3px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Doimiy ko'rinib turadigan tuman nomlari stili */
+.leaflet-tooltip.permanent-district-tooltip {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #2e7d32;
+  border-radius: 4px;
+  color: #1b5e20;
+  font-weight: 700;
+  font-size: 11px;
+  padding: 2px 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  pointer-events: none; /* Tooltip sichqoncha eventlariga xalaqit bermasligi uchun */
+}
+
+/* Tooltipning kichkina uchburchak dumni ochirish */
+.leaflet-tooltip.permanent-district-tooltip::before {
+  display: none;
 }

@@ -1,8 +1,7 @@
-
 import { useState } from 'react'
 import { GeoJSON, Popup } from 'react-leaflet'
 // Overpass Turbo orqali yuklab olingan yangi GeoJSON faylingiz
-import sirdaryoWaterData from '../../data/sirdaryo-suv-havzalari.json'
+import sirdaryoWaterData from '../../data/sirdaryo-suv.json'
 
 // Suv obyektlari turlariga qarab boshlang'ich stillar (rang, qalinlik va ikonka)
 const WATER_CONFIGS = {

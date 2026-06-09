@@ -8,7 +8,7 @@ import {
   FaRegEnvelopeOpen, 
   FaTelegram 
 } from 'react-icons/fa6'; // Zamonaviy va qalin piktogrammalar
-import { FiShield } from 'react-icons/fi'; // Minimalistik va premium logo ikonkasi
+ // Minimalistik va premium logo ikonkasi
 import "../styles/navbar.css";
 
 // Navigatsiya havolalari massiviga tegishli React komponent piktogrammalarini biriktiramiz
@@ -45,7 +45,7 @@ export default function Navbar() {
           {/* Logo */}
           <NavLink to="/" className="nav-brand">
             <div className="nav-logo-icon">
-              <FiShield />
+              <img src="./eco-logo.png" width={'60px'} alt="ECO-HUDUD Logo" />
             </div>
             <div className="nav-logo-text">
               <span className="logo-title">ECO-HUDUD</span>

@@ -52,7 +52,6 @@
 }
 
 .nav-logo-icon {
-  background: linear-gradient(135deg, #2ecc71, #138d4f);
   width: 44px;
   height: 44px;
   border-radius: 12px;
@@ -61,7 +60,6 @@
   justify-content: center;
   font-size: 24px;
   color: #fff;
-  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
 }
 
 .nav-logo-text {
