@@ -1,0 +1,389 @@
+/* ==========================================================================
+   🌌 ATMOSPHERE DASHBOARD GLOBAL & BACKGROUND STYLES
+   ========================================================================== */
+.atmo-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e1b4b 100%);
+  color: #f1f5f9;
+  padding: 24px;
+  font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Orqa fondagi neon nurlar effekti */
+.atmo-glow-1 {
+  position: absolute;
+  top: 0;
+  left: 25%;
+  width: 400px;
+  height: 400px;
+  background: rgba(59, 130, 246, 0.08);
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+}
+
+.atmo-glow-2 {
+  position: absolute;
+  top: 35%;
+  right: 25%;
+  width: 400px;
+  height: 400px;
+  background: rgba(139, 92, 246, 0.08);
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   🔝 HEADER & NAVIGATION STYLES
+   ========================================================================== */
+.atmo-header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  padding: 24px;
+  border-radius: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 768px) {
+  .atmo-header {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.atmo-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.atmo-logo-box {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #3b82f6 0%, #4f46e5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+}
+
+.atmo-logo-icon {
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.atmo-title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0;
+  background: linear-gradient(to right, #ffffff, #cbd5e1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.atmo-subtitle {
+  font-size: 14px;
+  color: #94a3b8;
+  margin: 4px 0 0 0;
+  font-weight: 500;
+}
+
+.atmo-export-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(71, 85, 105, 0.6);
+  border-radius: 12px;
+  color: #f8fafc;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.atmo-export-btn:hover {
+  background: rgba(51, 65, 85, 0.8);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   ⚡ STATISTICAL CARDS STYLES
+   ========================================================================== */
+.atmo-card-grid {
+  display: grid;
+  grid-template-cols: 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+@media (min-width: 768px) {
+  .atmo-card-grid {
+    grid-template-cols: repeat(3, 1fr);
+  }
+}
+
+.atmo-card {
+  background: linear-gradient(to bottom, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.2));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(51, 65, 85, 0.4);
+  padding: 24px;
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease;
+}
+
+.atmo-card:hover {
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.atmo-card-bg-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 80px;
+  opacity: 0.04;
+  transition: opacity 0.3s ease;
+}
+
+.atmo-card:hover .atmo-card-bg-icon {
+  opacity: 0.08;
+}
+
+.atmo-card-label {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0 0 6px 0;
+}
+
+.atmo-card-value {
+  font-size: 32px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0;
+}
+
+.atmo-card-unit {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.atmo-card-footer {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.atmo-badge {
+  padding: 2px 10px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.atmo-badge-danger { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); }
+.atmo-badge-success { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2); }
+.atmo-badge-info { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); }
+
+/* ==========================================================================
+   📊 CHARTS LAYOUT & PIE LEGEND STYLES
+   ========================================================================== */
+.atmo-charts-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+@media (min-width: 1024px) {
+  .atmo-charts-split {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.atmo-chart-block {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  padding: 24px;
+  border-radius: 24px;
+}
+
+.atmo-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.atmo-block-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.atmo-block-desc {
+  font-size: 12px;
+  color: #64748b;
+  margin: 4px 0 0 0;
+}
+
+/* Pie markazi matnlari */
+.atmo-pie-center {
+  position: absolute;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.atmo-pie-center-lbl { font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700; margin: 0; }
+.atmo-pie-center-val { font-size: 16px; font-weight: 900; color: #ffffff; margin: 2px 0; }
+.atmo-pie-center-pct { font-size: 12px; color: #3b82f6; font-weight: 600; margin: 0; }
+
+.atmo-pie-grid {
+  display: grid;
+  grid-template-cols: 1fr 1fr;
+  gap: 8px;
+  font-size: 12px;
+  margin-top: 16px;
+}
+
+.atmo-pie-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(30, 41, 59, 0.3);
+  padding: 8px 12px;
+  border: 1px solid rgba(51, 65, 85, 0.3);
+  border-radius: 12px;
+}
+
+.atmo-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   🎛 TOGGLE SWITCH BUTTONS (FILTERS)
+   ========================================================================== */
+.atmo-toggle-group {
+  display: flex;
+  background: rgba(30, 41, 59, 0.8);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid rgba(71, 85, 105, 0.5);
+}
+
+.atmo-toggle-btn {
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.atmo-toggle-btn.active {
+  background: #4f46e5;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+}
+
+/* ==========================================================================
+   🧫 GLASSMORPHISM TOOLTIP STYLES
+   ========================================================================== */
+.atmo-custom-tooltip {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid #475569;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.atmo-tooltip-label {
+  color: #94a3b8;
+  font-weight: 600;
+  font-size: 13px;
+  margin: 0 0 8px 0;
+}
+
+.atmo-tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  margin: 4px 0;
+}
+
+.atmo-tooltip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.atmo-tooltip-val {
+  margin-left: auto;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   ℹ FOOTER STATEMENT
+   ========================================================================== */
+.atmo-footer {
+  background: rgba(15, 23, 42, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(51, 65, 85, 0.4);
+  padding: 16px;
+  border-radius: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.atmo-footer-icon {
+  font-size: 16px;
+  color: #6366f1;
+  margin-top: 2px;
+  flex-shrink: 0;
+}

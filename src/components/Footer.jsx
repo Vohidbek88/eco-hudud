@@ -35,7 +35,7 @@ export default function Footer() {
           <div className="footer-brand-side">
             <div className="f-logo-wrap">
               <div className="f-logo-icon">
-                <FiShield />
+                <img src="./eco-hudud-logo.png" alt="ECO-HUDUD Logo" />
               </div>
               <span className="f-logo-text">ECO-HUDUD</span>
             </div>

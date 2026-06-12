@@ -6,7 +6,9 @@ import {
   FaMapLocationDot, 
   FaPhoneVolume, 
   FaRegEnvelopeOpen, 
-  FaTelegram 
+  FaTelegram ,
+  FaBookOpen,
+  FaBook // Adabiyotlar uchun ikonkani qo'shish
 } from 'react-icons/fa6'; // Zamonaviy va qalin piktogrammalar
  // Minimalistik va premium logo ikonkasi
 import "../styles/navbar.css";
@@ -16,6 +18,8 @@ const NAV_LINKS = [
   { to: '/', label: 'Bosh sahifa', icon: FaHouseUser, end: true },
   { to: '/biz-haqimizda', label: 'Biz haqimizda', icon: FaCircleInfo },
   { to: '/xarita', label: 'Xarita', icon: FaMapLocationDot },
+  {to:'/adabiyotlar', label:'Adabiyotlar', icon: FaBookOpen },
+  {to:'/source', label:'Manbalar', icon: FaBook }
 ];
 
 export default function Navbar() {
@@ -45,7 +49,7 @@ export default function Navbar() {
           {/* Logo */}
           <NavLink to="/" className="nav-brand">
             <div className="nav-logo-icon">
-              <img src="./eco-logo.png" width={'60px'} alt="ECO-HUDUD Logo" />
+              <img src="./eco-hudud-logo.png" width={'60px'} alt="ECO-HUDUD Logo" />
             </div>
             <div className="nav-logo-text">
               <span className="logo-title">ECO-HUDUD</span>

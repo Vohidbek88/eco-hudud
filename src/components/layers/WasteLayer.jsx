@@ -165,20 +165,6 @@ export function WasteDetailsSidebar({ site, onClose }) {
     // Google Maps koordinata havolasi (Eng universal havola)
     const googleMapsUrl = `https://www.google.com/maps?q=${site.lat},${site.lng}`;
     const shareText = `📍 ${site.ShaharTuman}, ${site.foydalanuvchiShaharTumanNomi}.`;
-
-    // Agar foydalanuvchi smartfonda bo'lsa va brauzer qo'llab-quvvatlasa (Telegram/Viber/SMS orqali ulashish)
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: site.ShaharTuman,
-          text: shareText,
-          url: googleMapsUrl,
-        });
-      } catch (error) {
-        console.log("Ulashishda xatolik yoki foydalanuvchi bekor qildi:", error);
-      }
-    } else {
-      // Agar kompyuterda bo'lsa - havolani clipboardga (buferga) ko'chirib qo'yadi
       try {
         await navigator.clipboard.writeText(`${shareText} ${googleMapsUrl}`);
         setCopied(true);
@@ -186,7 +172,7 @@ export function WasteDetailsSidebar({ site, onClose }) {
       } catch (err) {
         alert("Havolani nusxalashda xatolik yuz berdi.");
       }
-    }
+
   };
 
   return (

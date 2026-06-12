@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { MapContainer, TileLayer, GeoJSON, Tooltip } from 'react-leaflet'
+import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet'
 import { FaMapMarkedAlt, FaTint, FaTrashAlt, FaTree, FaWind } from 'react-icons/fa'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -10,22 +10,24 @@ import { WASTE_SITES } from '../data/wasteData'
 import WasteLayer, { WasteDetailsSidebar } from './layers/WasteLayer'
 import WaterLayer from './layers/WaterLayer'
 import AtmosphereLayer from './layers/AtmosphereLayer'
+import YashilMakonLayer from './layers/GreenCoverLayer'
 
 // Tuman va shaharlarning OpenStreetMap ID-lari ro'yxati
 const DISTRICT_BOUNDARY_IDS = {
   'Guliston shahri': 'relation/8310445',
   'Yangiyer shahri': 'relation/11086479',
   'Xovos tumani': 'relation/11086994',
-  'Mirzaobod tumani': 'relation/11087046',
-  'Boyovut tumani': 'relation/11086477',
-  'Сирдарё тумани': 'relation/11087876',
-  'Сайхунобод тумани': 'relation/11087853',
-  'Сардоba тумани': 'relation/11087239',
-  'Оқолтин тумани': 'relation/11087238',
-  'Гулистон тумани': 'relation/11087519',
-  'Ширин шаҳар': 'way/140375240',
+  'Mirzaobod Tumani': 'relation/11087046',
+  'Boyovut Tumani': 'relation/11086477',
+  'Sirdaryo Tumani': 'relation/11087876',
+  'Sayxunobod Tumani': 'relation/11087853',
+  'Sardoba Tumani': 'relation/11087239',
+  'Оqolotin Tumani': 'relation/11087238',
+  'Guliston Tumani': 'relation/11087519',
+  'Shirin shahri': 'way/140375240',
 }
 
+// Sirdaryo tashqi chegarasi
 const regionStyle = {
   color: '#00c853',
   weight: 4,
@@ -34,12 +36,13 @@ const regionStyle = {
   interactive: false
 }
 
+// O'ZBEKISTON CHEGARASI STILI: Endi aniq ko'rinadigan to'q ko'k rang va yarim shaffof fon berildi
 const uzbBorderStyle = {
-  color: '#cbd5e1', 
-  weight: 1.5, 
-  fillColor: '#f8fafc', 
-  fillOpacity: 0.6, 
-  dashArray: '3 3',
+  color: '#1e3b8a',      // To'q ko'k chegara chizig'i
+  weight: 2.5, 
+  fillColor: '#3b83f62d',  
+  fillOpacity: 0.15,     // O'zbekiston hududi yaqqol ajralib turishi uchun yengil ko'k fon
+  dashArray: '6 6',
   interactive: false
 }
 
@@ -75,15 +78,16 @@ const STATUS = {
 
 export default function Map({ activeTab = 'overview' }) {
   const [activeWasteId, setActiveWasteId] = useState(null)
-  const [hoveredDistrict, setHoveredDistrict] = useState(null) // Hover bo'lgan tuman ID si
+  const [hoveredDistrict, setHoveredDistrict] = useState(null)
   
   const status = STATUS[activeTab] ?? STATUS.overview
   const StatusIcon = status.icon
   const activeWasteSite = WASTE_SITES.find((site) => site.id === activeWasteId)
 
-  const sirdaryoBounds = [
-    [39.8, 67.5], 
-    [41.2, 69.5]  
+  // O'ZBEKISTON BOUNDS: Foydalanuvchi bemalol O'zbekiston ichida xaritani surishi mumkin
+  const uzbekistanBounds = [
+    [37.0, 55.0], // Janubiy-g'arbiy nuqta
+    [46.5, 74.0]  // Shimoliy-sharqiy nuqta
   ];
 
   useEffect(() => {
@@ -92,7 +96,6 @@ export default function Map({ activeTab = 'overview' }) {
     }
   }, [activeTab])
 
-  // DINAMIK HOVER STILI: Sichqoncha ustiga kelganda yorqinlashadi
   const getDynamicDistrictStyle = (feature) => {
     const isHovered = hoveredDistrict === feature.id;
     return {
@@ -104,27 +107,23 @@ export default function Map({ activeTab = 'overview' }) {
     }
   }
 
-  // SICHQONCHA EVENTLARI VA DOIMIY TOOLTIP BOG'LASH
   const onEachDistrict = (feature, layer) => {
     const districtName = Object.keys(DISTRICT_BOUNDARY_IDS).find(
       (key) => DISTRICT_BOUNDARY_IDS[key] === feature.id
     );
 
-    // 1. Tuman nomini doimiy ko'rinadigan qilib Tooltip orqali bog'lash
     if (districtName) {
       layer.bindTooltip(districtName, {
-        permanent: true,       // Xaritaga kirganda doimiy ko'rinib turadi
-        direction: 'center',   // Tumanning markazida chiqadi
-        className: 'custom-district-tooltip', // CSS orqali dizayn berish uchun
+        permanent: true,       
+        direction: 'center',   
+        className: 'custom-district-tooltip', 
         sticky: false
       });
     }
 
-    // 2. Hover eventlari (faqat chegara va background rangini o'zgartiradi)
     layer.on({
       mouseover: (e) => {
         setHoveredDistrict(feature.id);
-        // Leaflet ba'zan dinamik stilni render qilishi uchun chuqur elementni tepaga chiqarish kerak
         if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
           layer.bringToFront();
         }
@@ -141,12 +140,12 @@ export default function Map({ activeTab = 'overview' }) {
   return (
     <div className="map-wrapper">
       <MapContainer
-        center={[40.55, 68.65]} 
-        zoom={9}              
-        minZoom={8.5}           
+        center={[40.55, 68.65]} // Sirdaryo qoq markazi
+        zoom={9}                // Boshlang'ich optimal zoom
+        minZoom={6}             // Butun O'zbekiston ko'rinishi uchun uzoqlashishga ruxsat
         maxZoom={15}            
-        maxBounds={sirdaryoBounds} 
-        maxBoundsViscosity={1.0}   
+        maxBounds={uzbekistanBounds} // Qulflash chegarasini Sirdaryodan O'zbekistonga kengaytirdik
+        maxBoundsViscosity={0.7}    // Qattiq qulflash o'rniga yumshoq to'siq (surish ancha qulay)
         style={{ width: '100%', height: '100%' }}
       >
         <TileLayer
@@ -154,13 +153,13 @@ export default function Map({ activeTab = 'overview' }) {
           attribution="© OpenStreetMap contributors"
         />
         
-        {/* 1. O'zbekiston chegarasi */}
+        {/* 1. O'zbekiston chegarasi (Endi OpenStreetMap ustida chiroyli ko'rinadi) */}
         <GeoJSON
           data={uzbBorderData}
           style={uzbBorderStyle}
         />
 
-        {/* 2. Sirdaryoning ichki tuman va shaharlari (Tooltip va Hover effektlar shu yerda) */}
+        {/* 2. Sirdaryoning ichki tuman va shaharlari */}
         {activeTab === 'overview' && (
           <GeoJSON 
             data={getDistrictsOnly(sirdaryoTumansData)} 
@@ -181,6 +180,7 @@ export default function Map({ activeTab = 'overview' }) {
         )}
         {activeTab === 'water' && <WaterLayer />}
         {activeTab === 'atmosphere' && <AtmosphereLayer />}
+        {activeTab === 'green' && <YashilMakonLayer sirdaryoDistrictsGeoJSON={sirdaryoTumansData} />}
       </MapContainer>
 
       {activeTab === 'waste' && (

@@ -1,8 +1,9 @@
-* { 
+@import "tailwindcss";
+/* * { 
   box-sizing: border-box; 
   margin: 0; 
   padding: 0; 
-}
+} */
 
 html, body {
   height: 100%; /* Brauzerga zamin tayyorlaymiz */
@@ -25,6 +26,13 @@ body {
 /* Routerning kontenti joylashadigan asosiy qismni avtomat cho'ziladigan qilamiz */
 main {
   flex: 1 0 auto; /* Mana shu sehrli qator footerni har doim eng tagga mixlab qo'yadi! */
+}
+/* Hudud ustidagi gologramma chartning Leaflet qatlamini 100% tozalash */
+.custom-hologram-chart-icon {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  z-index: 3000 !important; /* Xaritada hamma narsadan balandda turadi */
 }
 
 /* Footer o'z o'lchamini yo'qotmasligi uchun */
@@ -880,8 +888,7 @@ main {
 }
 /* Doimiy ko'rinib turadigan tuman nomlari dizayni */
 .custom-district-tooltip {
-  background: rgba(255, 255, 255, 0.88) !important;
-  border: 1px solid #2e7d32 !important;
+  background: rgba(255, 255, 255, 0.899) !important;
   border-radius: 6px !important;
   color: #1b5e20 !important;
   font-weight: 600 !important;
@@ -987,4 +994,20 @@ main {
 /* Tooltipning kichkina uchburchak dumni ochirish */
 .leaflet-tooltip.permanent-district-tooltip::before {
   display: none;
+}
+
+/* Suv qatlamidagi popup ochilganda tagidagi ko'k markerni yashirish */
+/* 1. Xaritadagi barcha standart ko'k marker ikonkalarini va ularning soyalarini butunlay yo'q qilish */
+.leaflet-marker-pane .leaflet-marker-icon[src*="marker-icon"],
+.leaflet-shadow-pane .leaflet-marker-shadow {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* 2. Agar loyihangizda boshqa joyda kerak bo'lsa-yu, faqat shu suv popupida yo'qotmoqchi bo'lsangiz: */
+.water-clean-popup ~ .leaflet-marker-icon,
+.water-clean-popup ~ .leaflet-marker-shadow,
+.leaflet-shadow-pane img[src*="marker-shadow"] {
+  display: none !important;
 }

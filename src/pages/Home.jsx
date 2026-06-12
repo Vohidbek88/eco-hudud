@@ -125,7 +125,7 @@ export default function Home() {
             <div className="layer-body">
               <h3>Suv Obyektlari Monitoringi</h3>
               <p>Sirdaryo havzasi, kanallar va kollektorlarning gidrologik holati hamda kimyoviy tahlil nuqtalari koordinatalari.</p>
-              <Link to="/xarita?tab=water" className="layer-action-link">Suv qatlamini ochish <FaArrowRightLong /></Link>
+              <Link to="/xarita/suv" className="layer-action-link">Suv qatlamini ochish <FaArrowRightLong /></Link>
             </div>
           </article>
 
@@ -138,7 +138,7 @@ export default function Home() {
             <div className="layer-body">
               <h3>Chiqindi Poligonlari Nazorati</h3>
               <p>Qattiq maishiy chiqindi (QMCh) poligonlarining MFY kesimidagi chegaralari, yillik sig'imi va sanitariya zonalari tahlili.</p>
-              <Link to="/xarita?tab=waste" className="layer-action-link">Chiqindi qatlamini ochish <FaArrowRightLong /></Link>
+              <Link to="/xarita/chiqindi" className="layer-action-link">Chiqindi qatlamini ochish <FaArrowRightLong /></Link>
             </div>
           </article>
 
@@ -151,7 +151,7 @@ export default function Home() {
             <div className="layer-body">
               <h3>Atmosfera Havosi Sifati</h3>
               <p>Havodagi zararli gazlar (PM2.5, PM10, CO) miqdorini avtomatlashtirilgan datchiklar yordamida real vaqt rejimida tahlil qilish.</p>
-              <Link to="/xarita?tab=air" className="layer-action-link">Havo sifatini ko'rish <FaArrowRightLong /></Link>
+              <Link to="/atmosphere" className="layer-action-link">Havo sifatini ko'rish <FaArrowRightLong /></Link>
             </div>
           </article>
 

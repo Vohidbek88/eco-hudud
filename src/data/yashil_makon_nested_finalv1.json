@@ -1,0 +1,458 @@
+[
+  {
+    "tumanShaharNomi": "Boyovut Tumani",
+    "sanasi": 2025,
+    "Bahorda": {
+      "2023": {
+        "topshiriqberildi": 1212.113758229285,
+        "amalgaoshirildi": 1211.906,
+        "foizda": 99.98285984068124
+      },
+      "2024": {
+        "topshiriqberildi": 1100,
+        "amalgaoshirildi": 1157.6959999999995,
+        "foizda": 105.24509090909086
+      },
+      "2025": {
+        "topshiriqberildi": 1100,
+        "amalgaoshirildi": 1111.8860000000002,
+        "foizda": 101.08054545454547
+      }
+    },
+    "Kuzda": {
+      "2023": {
+        "topshiriqberildi": 737.3,
+        "amalgaoshirildi": 758.6719999999999,
+        "foizda": 102.89868438898684
+      },
+      "2024": {
+        "topshiriqberildi": 694,
+        "amalgaoshirildi": 696.27,
+        "foizda": 100.32708933717578
+      },
+      "2025": {
+        "topshiriqberildi": 1100,
+        "amalgaoshirildi": 1100.7,
+        "foizda": 100.06363636363636
+      }
+    }
+  },
+  {
+    "tumanShaharNomi": "Guliston Tumani",
+    "sanasi": 2025,
+    "Bahorda": {
+      "2023": {
+        "topshiriqberildi": 1030.4116958002273,
+        "amalgaoshirildi": 1040.8799999999999,
+        "foizda": 101.01593413995973
+      },
+      "2024": {
+        "topshiriqberildi": 1070,
+        "amalgaoshirildi": 1091.3090000000002,
+        "foizda": 101.99149532710283
+      },
+      "2025": {
+        "topshiriqberildi": 1070,
+        "amalgaoshirildi": 1087.0070000000003,
+        "foizda": 101.58943925233648
+      }
+    },
+    "Kuzda": {
+      "2023": {
+        "topshiriqberildi": 735.5,
+        "amalgaoshirildi": 740.8910000000002,
+        "foizda": 100.73297076818493
+      },
+      "2024": {
+        "topshiriqberildi": 678,
+        "amalgaoshirildi": 687.88,
+        "foizda": 101.45722713864306
+      },
+      "2025": {
+        "topshiriqberildi": 1070,
+        "amalgaoshirildi": 1100.3,
+        "foizda": 102.83177570093459
+      }
+    }
+  },
+  {
+    "tumanShaharNomi": "Mirzaobod Tumani",
+    "sanasi": 2025,
+    "Bahorda": {
+      "2023": {
+        "topshiriqberildi": 1056.3119897843358,
+        "amalgaoshirildi": 1082.494,
+        "foizda": 102.47862473103326
+      },
+      "2024": {
+        "topshiriqberildi": 1130,
+        "amalgaoshirildi": 1780.283,
+        "foizda": 157.5471681415929
+      },
+      "2025": {
+        "topshiriqberildi": 1125.1999999999998,
+        "amalgaoshirildi": 1320.0600000000002,
+        "foizda": 117.31781016708145
+      }
+    },
+    "Kuzda": {
+      "2023": {
+        "topshiriqberildi": 737,
+        "amalgaoshirildi": 763.837,
+        "foizda": 103.64138398914518
+      },
+      "2024": {
+        "topshiriqberildi": 720,
+        "amalgaoshirildi": 782.7,
+        "foizda": 108.70833333333334
+      },
+      "2025": {
+        "topshiriqberildi": 1125.1999999999998,
+        "amalgaoshirildi": 1136.4,
+        "foizda": 100.99537859936014
+      }
+    }
+  },
+  {
+    "tumanShaharNomi": "Oqoltin Tumani",
+    "sanasi": 2025,
+    "Bahorda": {
+      "2023": {
+        "topshiriqberildi": 1300.8147650397275,
+        "amalgaoshirildi": 1296.2799999999997,
+        "foizda": 99.65139040841152
+      },
+      "2024": {
+        "topshiriqberildi": 1080,
+        "amalgaoshirildi": 1094.3869999999997,
+        "foizda": 101.33212962962959
+      },
+      "2025": {
+        "topshiriqberildi": 1078,
+        "amalgaoshirildi": 1086.4189999999999,
+        "foizda": 100.78098330241185
+      }
+    },
+    "Kuzda": {
+      "2023": {
+        "topshiriqberildi": 737,
+        "amalgaoshirildi": 737.8290000000002,
+        "foizda": 100.11248303934873
+      },
+      "2024": {
+        "topshiriqberildi": 678,
+        "amalgaoshirildi": 697.06,
+        "foizda": 102.81120943952801
+      },
+      "2025": {
+        "topshiriqberildi": 1078,
+        "amalgaoshirildi": 1078.2,
+        "foizda": 100.01855287569575
+      }
+    }
+  },
+  {
+    "tumanShaharNomi": "Sardoba Tumani",
+    "sanasi": 2025,
+    "Bahorda": {
+      "2023": {
+        "topshiriqberildi": 940.8106787741203,
+        "amalgaoshirildi": 941.8310000000001,
+        "foizda": 100.10845128025218
+      },
+      "2024": {
+        "topshiriqberildi": 1045,
+        "amalgaoshirildi": 1048.4969999999998,
+        "foizda": 100.33464114832535
+      },
+      "2025": {
+        "topshiriqberildi": 1045,
+        "amalgaoshirildi": 1055.222,
+        "foizda": 100.97818181818181
+      }
+    },
+    "Kuzda": {
+      "2023": {
+        "topshiriqberildi": 732.1,
+        "amalgaoshirildi": 742.6490000000001,
+        "foizda": 101.44092337112417
+      },
+      "2024": {
+        "topshiriqberildi": 675,
+        "amalgaoshirildi": 676.11,
+        "foizda": 100.16444444444444
+      },
+      "2025": {
+        "topshiriqberildi": 1045,
+        "amalgaoshirildi": 1047.41,
+        "foizda": 100.23062200956939
+      }
+    }
+  },
+  {
+    "tumanShaharNomi": "Sayxunobod Tumani",
+    "sanasi": 2025,
+    "Bahorda": {
+      "2023": {
+        "topshiriqberildi": 1060.5120374574349,
+        "amalgaoshirildi": 1058.576,
+        "foizda": 99.81744314170385
+      },
+      "2024": {
+        "topshiriqberildi": 1070,
+        "amalgaoshirildi": 1115.626,
+        "foizda": 104.26411214953272
+      },
+      "2025": {
+        "topshiriqberildi": 1069.9,
+        "amalgaoshirildi": 1092.927,
+        "foizda": 102.15225722030095
+      }
+    },
+    "Kuzda": {
+      "2023": {
+        "topshiriqberildi": 736.2,
+        "amalgaoshirildi": 737.8829999999999,
+        "foizda": 100.2286063569682
+      },
+      "2024": {
+        "topshiriqberildi": 685,
+        "amalgaoshirildi": 687.92,
+        "foizda": 100.42627737226277
+      },
+      "2025": {
+        "topshiriqberildi": 1069.9,
+        "amalgaoshirildi": 1070.07,
+        "foizda": 100.01588933545189
+      }
+    }
+  },
+  {
+    "tumanShaharNomi": "Sirdaryo Tumani",
+    "sanasi": 2025,
+    "Bahorda": {
+      "2023": {
+        "topshiriqberildi": 1045.011861520999,
+        "amalgaoshirildi": 1080.5870000000002,
+        "foizda": 103.40428083057566
+      },
+      "2024": {
+        "topshiriqberildi": 1100,
+        "amalgaoshirildi": 1135.4490000000005,
+        "foizda": 103.22263636363641
+      },
+      "2025": {
+        "topshiriqberildi": 1100,
+        "amalgaoshirildi": 1127.964,
+        "foizda": 102.54218181818182
+      }
+    },
+    "Kuzda": {
+      "2023": {
+        "topshiriqberildi": 737,
+        "amalgaoshirildi": 740.3809999999999,
+        "foizda": 100.45875169606511
+      },
+      "2024": {
+        "topshiriqberildi": 702,
+        "amalgaoshirildi": 710.37,
+        "foizda": 101.1923076923077
+      },
+      "2025": {
+        "topshiriqberildi": 1100,
+        "amalgaoshirildi": 1100.73,
+        "foizda": 100.06636363636363
+      }
+    }
+  },
+  {
+    "tumanShaharNomi": "Xovos Tumani",
+    "sanasi": 2025,
+    "Bahorda": {
+      "2023": {
+        "topshiriqberildi": 1040.311808172531,
+        "amalgaoshirildi": 1040.217,
+        "foizda": 99.99088656191479
+      },
+      "2024": {
+        "topshiriqberildi": 1065,
+        "amalgaoshirildi": 1119.511,
+        "foizda": 105.11840375586854
+      },
+      "2025": {
+        "topshiriqberildi": 1065,
+        "amalgaoshirildi": 1091.1499999999999,
+        "foizda": 102.45539906103285
+      }
+    },
+    "Kuzda": {
+      "2023": {
+        "topshiriqberildi": 732,
+        "amalgaoshirildi": 739.1129999999999,
+        "foizda": 100.97172131147539
+      },
+      "2024": {
+        "topshiriqberildi": 695,
+        "amalgaoshirildi": 704.9,
+        "foizda": 101.42446043165467
+      },
+      "2025": {
+        "topshiriqberildi": 1065,
+        "amalgaoshirildi": 1068.66,
+        "foizda": 100.343661971831
+      }
+    }
+  },
+  {
+    "tumanShaharNomi": "Guliston shahri",
+    "sanasi": 2025,
+    "Bahorda": {
+      "2023": {
+        "topshiriqberildi": 60.49665153234961,
+        "amalgaoshirildi": 62.156000000000006,
+        "foizda": 102.74287654873442
+      },
+      "2024": {
+        "topshiriqberildi": 53,
+        "amalgaoshirildi": 68.265,
+        "foizda": 128.80188679245282
+      },
+      "2025": {
+        "topshiriqberildi": 53.5,
+        "amalgaoshirildi": 63.60600000000001,
+        "foizda": 118.88971962616823
+      }
+    },
+    "Kuzda": {
+      "2023": {
+        "topshiriqberildi": 59,
+        "amalgaoshirildi": 63.672999999999995,
+        "foizda": 107.92033898305084
+      },
+      "2024": {
+        "topshiriqberildi": 40,
+        "amalgaoshirildi": 50.75,
+        "foizda": 126.875
+      },
+      "2025": {
+        "topshiriqberildi": 53.5,
+        "amalgaoshirildi": 58.35,
+        "foizda": 109.06542056074765
+      }
+    }
+  },
+  {
+    "tumanShaharNomi": "Yangiyer shahri",
+    "sanasi": 2025,
+    "Bahorda": {
+      "2023": {
+        "topshiriqberildi": 44.502826333711695,
+        "amalgaoshirildi": 47.635999999999996,
+        "foizda": 107.04039254224818
+      },
+      "2024": {
+        "topshiriqberildi": 42,
+        "amalgaoshirildi": 86.824,
+        "foizda": 206.72380952380954
+      },
+      "2025": {
+        "topshiriqberildi": 43.5,
+        "amalgaoshirildi": 52.668000000000006,
+        "foizda": 121.07586206896552
+      }
+    },
+    "Kuzda": {
+      "2023": {
+        "topshiriqberildi": 46,
+        "amalgaoshirildi": 48.257,
+        "foizda": 104.90652173913043
+      },
+      "2024": {
+        "topshiriqberildi": 49,
+        "amalgaoshirildi": 52.66,
+        "foizda": 107.46938775510203
+      },
+      "2025": {
+        "topshiriqberildi": 43.5,
+        "amalgaoshirildi": 45.8,
+        "foizda": 105.28735632183907
+      }
+    }
+  },
+  {
+    "tumanShaharNomi": "Shirin shahri",
+    "sanasi": 2025,
+    "Bahorda": {
+      "2023": {
+        "topshiriqberildi": 18.80474460839954,
+        "amalgaoshirildi": 28.205,
+        "foizda": 149.98874266764372
+      },
+      "2024": {
+        "topshiriqberildi": 20,
+        "amalgaoshirildi": 29.09,
+        "foizda": 145.45
+      },
+      "2025": {
+        "topshiriqberildi": 25,
+        "amalgaoshirildi": 31.589999999999996,
+        "foizda": 126.35999999999999
+      }
+    },
+    "Kuzda": {
+      "2023": {
+        "topshiriqberildi": 22,
+        "amalgaoshirildi": 29.176,
+        "foizda": 132.6181818181818
+      },
+      "2024": {
+        "topshiriqberildi": 21,
+        "amalgaoshirildi": 45.38,
+        "foizda": 216.0952380952381
+      },
+      "2025": {
+        "topshiriqberildi": 25,
+        "amalgaoshirildi": 26.95,
+        "foizda": 107.8
+      }
+    }
+  },
+  {
+    "tumanShaharNomi": "umumuiy",
+    "sanasi": 2025,
+    "Bahorda": {
+      "2023": {
+        "topshiriqberildi": 8810.102817253124,
+        "amalgaoshirildi": 8890.768000000002,
+        "foizda": 100.9155986532746
+      },
+      "2024": {
+        "topshiriqberildi": 8775,
+        "amalgaoshirildi": 9726.937,
+        "foizda": 110.8482849002849
+      },
+      "2025": {
+        "topshiriqberildi": 8775.1,
+        "amalgaoshirildi": 9120.499,
+        "foizda": 103.93612608403322
+      }
+    },
+    "Kuzda": {
+      "2023": {
+        "topshiriqberildi": 6011.1,
+        "amalgaoshirildi": 6102.361,
+        "foizda": 101.51820798190015
+      },
+      "2024": {
+        "topshiriqberildi": 5637,
+        "amalgaoshirildi": 5792,
+        "foizda": 102.74968955117971
+      },
+      "2025": {
+        "topshiriqberildi": 8775.1,
+        "amalgaoshirildi": 8833.57,
+        "foizda": 100.66631719296646
+      }
+    }
+  }
+]
