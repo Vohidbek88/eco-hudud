@@ -153,13 +153,13 @@ export default function LiteraturePage() {
 
                     {/* Avtor & Institut */}
                     <div className="space-y-1.5 border-t border-slate-200/50 pt-3">
-                      <p className="font-semibold  flex items-center gap-1.5">
-                        <span className="text-sm">Muallif:</span> {lit.author}
+                      <p className="font-semibold  flex  gap-1.5">
+                        <span className="text-sm">Muallif: {lit.author}</span> 
                       </p>
-                      <p className="text-[11px] text-slate-400 flex items-center gap-1.5 leading-tight">
+                      {/* <p className="text-[11px] text-slate-400 flex items-center gap-1.5 leading-tight">
                         <span className="inline-block w-1.5 h-1.5 bg-slate-300 rounded-full flex-shrink-0" />
                         {lit.institution}
-                      </p>
+                      </p> */}
                     </div>
                   </div>
 

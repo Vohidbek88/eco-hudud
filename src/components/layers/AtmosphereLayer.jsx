@@ -1,27 +1,27 @@
 import { useState } from 'react';
-import { GeoJSON } from 'react-leaflet';
+import { GeoJSON, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import sirdaryoTumanlari from '../../data/sirdaryo-tumanlari.json'; // Tumanlar GeoJSON konturi
 import { ATMOSPHERE_DATA } from '../../data/atmosphereData';
 // Recharts elementlari
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
+import { HiXMark, HiArrowTopRightOnSquare, HiChartBar } from 'react-icons/hi2';
+import { Link } from 'react-router-dom';
+import { renderToStaticMarkup } from 'react-dom/server';
 
 export default function AtmosphereLayer() {
+  // Endi faqat nom emas, obyekt saqlaymiz: { name, center, rawData }
   const [selectedDistrict, setSelectedDistrict] = useState(null);
 
-  
   // Xaritadagi tumanlarni jami chiqindi miqdoriga qarab dinamik bo'yash
   const getStyle = (feature) => {
     const osmName = feature.properties?.name || feature.properties?.['name:uz'] || feature.properties?.['name:uz-cyr'] || feature.properties?.['name:en'] || feature.properties?.['name:ru'];
 
-
     const data = ATMOSPHERE_DATA[osmName];
     const jami = data ? data.jami2023 : 0;
     
-    const isActive = selectedDistrict ==osmName
+    const isActive = selectedDistrict?.name === osmName;
 
-    // Chiqindi miqdoriga qarab ranglar (Shirin shahar uchun to'q qizil)
     let fillColor = '#fef08a'; 
     if (jami > 30) fillColor = '#991b1b75';      
     else if (jami > 5) fillColor = '#dc26266c';  
@@ -30,21 +30,30 @@ export default function AtmosphereLayer() {
 
     return {
       fillColor: fillColor,
-      weight: isActive ? 3 : 1.5,
+      weight: isActive ? 2.5 : 1.2,
       opacity: 1,
-      color: isActive ? '#1e293b' : '#fff', // Aktiv tumanni chegarasini to'q qilib ko'rsatish
+      color: isActive ? '#0f172a' : '#ffffff',
       fillOpacity: isActive ? 0.85 : 0.6,
     };
   };
 
   const onEachFeature = (feature, layer) => {
     const osmName = feature.properties?.name || feature.properties?.['name:uz'];
-
+    const data = ATMOSPHERE_DATA[osmName];
 
     layer.on({
       click: (e) => {
-        L.DomEvent.stopPropagation(e); // Xaritaning kliklanish hodisasini to'xtatadi
-        setSelectedDistrict(osmName);
+        L.DomEvent.stopPropagation(e);
+        const bounds = e.target.getBounds();
+        const center = bounds.getCenter(); // Hududning markaziy nuqtasi
+
+        if (data) {
+          setSelectedDistrict({
+            name: osmName,
+            center: center,
+            rawData: data
+          });
+        }
       },
       mouseover: (e) => {
         const layer = e.target;
@@ -52,160 +61,151 @@ export default function AtmosphereLayer() {
       },
       mouseout: (e) => {
         const layer = e.target;
-        if (selectedDistrict !== osmName) {
+        if (selectedDistrict?.name !== osmName) {
           layer.setStyle({ fillOpacity: 0.6 });
         }
       }
     });
   };
 
-  const prepareChartData = (name) => {
-    const d = ATMOSPHERE_DATA[name];
-    if (!d) return [];
+  const prepareChartData = (data) => {
+    if (!data) return [];
     return [
-      { name: '2022-yil', 'Transport': d.transport2022, 'Sanoat': d.sanoat2022 },
-      { name: '2023-yil', 'Transport': d.transport2023, 'Sanoat': d.sanoat2023 }
+      { name: '2022-yil', 'Transport': data.transport2022, 'Sanoat': data.sanoat2022 },
+      { name: '2023-yil', 'Transport': data.transport2023, 'Sanoat': data.sanoat2023 }
     ];
+  };
+
+  // Dinamik o'zgarish foizini hisoblash funksiyasi
+  const calculateChangePercent = (data) => {
+    if (!data || !data.jami2022) return '0%';
+    const change = ((data.jami2023 - data.jami2022) / data.jami2022) * 100;
+    return `${change > 0 ? '+' : ''}${change.toFixed(1)}%`;
   };
 
   return (
     <>
       {/* Tuman konturlari */}
       <GeoJSON 
+        key={selectedDistrict?.name || 'default'} // Aktiv tuman o'zgarganda xaritani yangilash
         data={sirdaryoTumanlari} 
         style={getStyle} 
         onEachFeature={onEachFeature} 
       />
 
-      {/* DINAMIK SIDEBAR */}
-      {selectedDistrict && ATMOSPHERE_DATA[selectedDistrict] && (
-        <div style={styles.sidebar}>
-          <div style={styles.sidebarHeader}>
-            <h3 style={styles.sidebarTitle}>{selectedDistrict}</h3>
+      {/* 🟢 HUDUD USTIDA HAVODA SUZIB TURUVCHI DINAMIKA FOIZI (MARKER) */}
+      {selectedDistrict && selectedDistrict.rawData && (
+        <Marker
+          position={selectedDistrict.center}
+          icon={L.divIcon({
+            html: `
+              <div class="absolute -translate-x-1/2 -translate-y-1/2 bg-slate-900/90 text-white backdrop-blur-sm border border-slate-700/50 px-2.5 py-1.5 rounded-xl shadow-xl pointer-events-none select-none text-center min-w-[100px] animate-in fade-in zoom-in-95 duration-200 z-[1100]">
+                <div class="text-[9px] font-bold text-slate-300 uppercase tracking-wider">O'zgarish</div>
+                <div class="text-xs font-black ${
+                  (selectedDistrict.rawData.jami2023 - selectedDistrict.rawData.jami2022) > 0 
+                    ? 'text-rose-400' 
+                    : 'text-emerald-400'
+                }">
+                  ${calculateChangePercent(selectedDistrict.rawData)}
+                </div>
+              </div>
+            `,
+            className: 'custom-hologram-emissions-icon',
+            iconSize: [0, 0],
+          })}
+        />
+      )}
+
+      {/* --- TAILWIND MODERN SIDEBAR --- */}
+      {selectedDistrict && selectedDistrict.rawData && (
+        <div className="absolute top-5 left-5 w-80 bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-2xl p-5 z-[1000] font-sans animate-in fade-in slide-in-from-left-5 duration-300">
+          
+          {/* Header */}
+          <div className="flex justify-between items-center mb-1">
+            <h3 className="text-base font-black text-slate-900 tracking-tight m-0">
+              {selectedDistrict.name}
+            </h3>
             <button 
               onClick={() => setSelectedDistrict(null)} 
-              style={styles.closeButton}
+              className="p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
             >
-              ✕
+              <HiXMark className="w-4 h-4" />
             </button>
           </div>
           
-          <p style={styles.sidebarSub}>Atmosferaga chiqarilgan zararli moddalar (ming tonna):</p>
+          <p className="text-[11px] text-slate-400 font-medium leading-relaxed m-0 mb-3">
+            Atmosferaga chiqarilgan zararli moddalar (ming tonna):
+          </p>
           
-          {/* RECHARTS GRAFIK */}
-          <div style={styles.chartWrapper}>
-            <ResponsiveContainer width="100%" height={220}>
-              <BarChart data={prepareChartData(selectedDistrict)} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" fontSize={12} tickLine={false} />
-                <YAxis fontSize={12} tickLine={false} />
-                <Tooltip formatter={(value) => [`${value} ming t`]} />
-                <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
-                <Bar dataKey="Transport" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="Sanoat" fill="#ef4444" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+          {/* 🔄 GORIZONTAL SCROLL VA SEMIZLASHTIRILGAN RECHARTS GRAFIK KONTEYNERI */}
+          <div className="w-full overflow-x-auto pb-1 mb-3 border border-slate-100 bg-slate-50/50 rounded-xl p-1.5 scrollbar-thin">
+            {/* Ustunlar semiz (qalin) bo'lishi uchun ichki div kengligi fixed 340px qilindi */}
+            <div className="w-[340px] h-44">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={prepareChartData(selectedDistrict.rawData)} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" strokeOpacity={0.6} />
+                  <XAxis dataKey="name" fontSize={10} tickLine={false} stroke="#64748b" fontWeight={700} />
+                  <YAxis fontSize={10} tickLine={false} stroke="#64748b" fontWeight={600} />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: '#0f172a', borderRadius: '10px', border: 'none', color: '#fff', fontSize: '10px' }}
+                    formatter={(value) => [`${value} ming t`]}
+                  />
+                  <Legend iconSize={8} wrapperStyle={{ fontSize: 10, paddingTop: 4 }} />
+                  {/* barSize 22px ga kengaytirilib, semiz holatga keltirildi */}
+                  <Bar dataKey="Transport" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={22} name="Transport" />
+                  <Bar dataKey="Sanoat" fill="#ef4444" radius={[4, 4, 0, 0]} barSize={22} name="Sanoat" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
 
-          <div style={styles.divider} />
+          <div className="h-px bg-slate-100 my-3" />
 
           {/* Ma'lumotlar Taxlili jadvali */}
-          <div style={styles.infoGrid}>
-            <div style={styles.infoRow}>
+          <div className="flex flex-col gap-2.5 mb-4">
+            <div className="flex justify-between items-center text-xs text-slate-600 font-semibold">
               <span>🗓️ 2022-yil Jami:</span>
-              <strong style={styles.val}>{ATMOSPHERE_DATA[selectedDistrict].jami2022} ming t</strong>
+              <strong className="text-slate-900 font-bold font-mono">
+                {selectedDistrict.rawData.jami2022.toFixed(3)} ming t
+              </strong>
             </div>
-            <div style={styles.infoRow}>
+            
+            <div className="flex justify-between items-center text-xs text-slate-600 font-semibold">
               <span>🗓️ 2023-yil Jami:</span>
-              <strong style={styles.val}>{ATMOSPHERE_DATA[selectedDistrict].jami2023} ming t</strong>
+              <strong className="text-slate-900 font-bold font-mono">
+                {selectedDistrict.rawData.jami2023.toFixed(3)} ming t
+              </strong>
             </div>
-            <div style={styles.infoRow}>
+            
+            <div className="flex justify-between items-center text-xs text-slate-600 font-semibold">
               <span>📈 O'zgarish dinamikasi:</span>
-              <strong style={{
-                ...styles.val,
-                color: (ATMOSPHERE_DATA[selectedDistrict].jami2023 - ATMOSPHERE_DATA[selectedDistrict].jami2022) > 0 ? '#ef4444' : '#22c55e'
-              }}>
-                {(ATMOSPHERE_DATA[selectedDistrict].jami2023 - ATMOSPHERE_DATA[selectedDistrict].jami2022).toFixed(3)} ming t
+              <strong 
+                className={`font-bold font-mono px-1.5 py-0.5 rounded ${
+                  (selectedDistrict.rawData.jami2023 - selectedDistrict.rawData.jami2022) > 0 
+                    ? 'bg-rose-50 text-rose-600' 
+                    : 'bg-emerald-50 text-emerald-600'
+                }`}
+              >
+                {(selectedDistrict.rawData.jami2023 - selectedDistrict.rawData.jami2022) > 0 ? '+' : ''}
+                {(selectedDistrict.rawData.jami2023 - selectedDistrict.rawData.jami2022).toFixed(3)} ming t
               </strong>
             </div>
           </div>
+
+          {/* --- BATAFSIL TAHLIL LINKI --- */}
+          <Link 
+            to={'/atmosphere'}
+            className="w-full flex items-center justify-between px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-slate-900/10 active:scale-[0.98] group cursor-pointer"
+          >
+            <div className="flex items-center gap-2">
+              <HiChartBar className="w-4 h-4 text-sky-400" />
+              <span className='text-white text-xs'>Batafsil tahlil oynasi</span>
+            </div>
+            <HiArrowTopRightOnSquare className="w-3.5 h-3.5 text-slate-400 group-hover:text-white transition-colors" />
+          </Link>
+
         </div>
       )}
     </>
   );
 }
-
-// SIDEBAR VA DIAGRAMMA UCHUN TAYYOR INTERFEYS STILLARI
-const styles = {
-  sidebar: {
-    position: 'absolute',
-    top: 20,
-    left: 20,
-    width: 320,
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
-    borderRadius: 12,
-    padding: 20,
-    zIndex: 1000, // Xaritaning ustida turishi shart
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    backdropFilter: 'blur(8px)',
-    border: '1px solid rgba(226, 232, 240, 0.8)'
-  },
-  sidebarHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 6
-  },
-  sidebarTitle: {
-    margin: 0,
-    fontSize: 18,
-    fontWeight: 700,
-    color: '#0f172a',
-    letterSpacing: '-0.025em'
-  },
-  closeButton: {
-    background: 'none',
-    border: 'none',
-    fontSize: 16,
-    color: '#94a3b8',
-    cursor: 'pointer',
-    padding: 4,
-    transition: 'color 0.2s',
-    ':hover': { color: '#64748b' }
-  },
-  sidebarSub: {
-    margin: '0 0 20px 0',
-    fontSize: 12,
-    color: '#64748b',
-    lineHeight: 1.4
-  },
-  chartWrapper: {
-    width: '100%',
-    height: 220,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: '10px 0'
-  },
-  divider: {
-    height: 1,
-    backgroundColor: '#e2e8f0',
-    margin: '16px 0'
-  },
-  infoGrid: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 10
-  },
-  infoRow: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    fontSize: 13,
-    color: '#334155'
-  },
-  val: {
-    fontWeight: 600,
-    color: '#0f172a'
-  }
-};

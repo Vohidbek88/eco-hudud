@@ -5,9 +5,10 @@ import Home from './pages/Home'
 import MapPage from './pages/MapPage'
 import './index.css'
 import Footer from './components/Footer'
-import AtmospherePage from './pages/AtmospherePage'
 import LiteraturePage from './pages/LiteraturePage'
 import SourcesPage from './pages/SourcesPage'
+import AtmosphereDashboard from './pages/AtmospherePage'
+import YashilMakonDashboard from './pages/YashilMakonDashboard'
 
 function AppLayout() {
   const { pathname } = useLocation()
@@ -24,7 +25,8 @@ function AppLayout() {
         <Route path="/xarita/chiqindi" element={<MapPage activeTab="waste" />} />
         <Route path="/xarita/atmosfera" element={<MapPage activeTab="atmosphere" />} />
         <Route path="/xarita/yashil-makon" element={<MapPage activeTab="green" />} />
-        <Route path="/atmosphere" element={<AtmospherePage />} />
+        <Route path="/atmosphere" element={<AtmosphereDashboard />} />
+        <Route path="/green-place" element={<YashilMakonDashboard />} />
         <Route path="/adabiyotlar" element={<LiteraturePage/>} />
         <Route path='/source' element={<SourcesPage/>}/>
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -164,7 +164,7 @@ export default function Home() {
             <div className="layer-body">
               <h3>Yashil Makon & Geoportal</h3>
               <p>Yashil maydonlar, ekilgan yangi nihollar, o'rmon xo'jaliklari hududlarining elektron xaritasi va yashillik indeksi (NDVI).</p>
-              <Link to="/xarita?tab=green" className="layer-action-link">Yashil hududlarni ko'rish <FaArrowRightLong /></Link>
+              <Link to="/green-place" className="layer-action-link">Yashil hududlarni ko'rish <FaArrowRightLong /></Link>
             </div>
           </article>
 
